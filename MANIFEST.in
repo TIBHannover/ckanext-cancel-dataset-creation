@@ -1,0 +1,4 @@
+include README.rst
+include LICENSE
+include requirements.txt
+recursive-include ckanext/cancel_dataset_creation *.html *.json *.js *.less *.css *.mo
