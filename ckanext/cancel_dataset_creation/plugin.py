@@ -1,6 +1,7 @@
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
 from flask import Blueprint
+from ckanext.cancel_dataset_creation.controllers import BaseController
 
 
 class CancelDatasetCreationPlugin(plugins.SingletonPlugin):
@@ -18,6 +19,13 @@ class CancelDatasetCreationPlugin(plugins.SingletonPlugin):
     def get_blueprint(self):
 
         blueprint = Blueprint(self.name, self.__module__) 
+        
+        blueprint.add_url_rule(
+            u'/cancel_dataset_creation/cancel_dataset',
+            u'cancel_dataset',
+            BaseController.cancel_dataset,
+            methods=['POST']
+            )
 
 
         return blueprint
