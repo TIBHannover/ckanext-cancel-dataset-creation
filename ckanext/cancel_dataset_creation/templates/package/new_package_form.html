@@ -3,6 +3,6 @@
 {% block delete_button %}
     {{ super() }}
   {% if data.state == 'draft' %}
-        <a class="btn btn-danger" style="margin-right:300px;">Delete</a>
+        <a class="btn btn-danger" style="margin-right:300px;">{{_('Delete')}}</a>
   {% endif %}
 {% endblock %}

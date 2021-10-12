@@ -2,11 +2,13 @@ import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
 from flask import Blueprint
 from ckanext.cancel_dataset_creation.controllers import BaseController
+from ckan.lib.plugins import DefaultTranslation
 
 
-class CancelDatasetCreationPlugin(plugins.SingletonPlugin):
+class CancelDatasetCreationPlugin(plugins.SingletonPlugin, DefaultTranslation):
     plugins.implements(plugins.IConfigurer)
     plugins.implements(plugins.IBlueprint)
+    plugins.implements(plugins.ITranslation)
 
     # IConfigurer
 
