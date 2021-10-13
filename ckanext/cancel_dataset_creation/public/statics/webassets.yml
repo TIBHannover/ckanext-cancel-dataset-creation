@@ -1,0 +1,17 @@
+cancel-dataset-creation-css:
+  output: ckanext-dataset-reference/%(version)s_my.css
+  contents:
+    - styles.css
+
+cancel-dataset-creation-js:  
+  output: ckanext-dataset-reference/%(version)s_my.js
+  extra:
+    preload:
+      - base/main
+      - vendor/vendor
+      - vendor/bootstrap
+      - vendor/jquery
+      - vendor/jquery.ui.core
+      - vendor/select2
+  contents:
+    - script.js

@@ -3,6 +3,7 @@
 {% block delete_button %}
     {{ super() }}
   {% if data.state == 'draft' %}
-        <a class="btn btn-danger" style="margin-right:300px;">{{_('Delete')}}</a>
+        {% asset 'ckanext-cancel-dataset-creation/cancel-dataset-creation-css' %}
+        <a class="btn btn-danger pull-left dataset-cancel-creation-btn" style="">{{_('Delete')}}</a>
   {% endif %}
 {% endblock %}
