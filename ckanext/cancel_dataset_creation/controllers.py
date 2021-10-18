@@ -6,9 +6,8 @@ from ckanext.cancel_dataset_creation.lib import Helper
 
 class BaseController():
 
-    def cancel_dataset():
+    def cancel_dataset(package_id):
         try:
-            package_id = request.form.get('package_id')
             if not Helper.check_access_delete_package(package_id):
                 return toolkit.abort(403, "you are not authorized")
             

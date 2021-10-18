@@ -3,7 +3,8 @@
 {% block delete_button %}
     {{ super() }}
   {% if data.state == 'draft' %}
+        {% set dest_url = h.url_for('cancel_dataset_creation.cancel_dataset', package_id=data.id, _external=True) %}
         {% asset 'ckanext-cancel-dataset-creation/cancel-dataset-creation-css' %}
-        <a class="btn btn-danger pull-left dataset-cancel-creation-btn" style="">{{_('Delete')}}</a>
+       <a class="btn btn-danger pull-left" href="{{dest_url}}" data-module="confirm-action" data-module-content="{{ _('Are you sure you want to delete this dataset?') }}">{% block delete_button_text %}{{ _('Delete') }}{% endblock %}</a>
   {% endif %}
 {% endblock %}
