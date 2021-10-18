@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 import ckan.plugins.toolkit as toolkit
+import ckan.lib.helpers as h
 
 
 class Helper():
