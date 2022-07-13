@@ -20,3 +20,7 @@ class BaseController():
             return  redirect(h.url_for('user.read', id=toolkit.g.userobj.name,  _external=True)) 
 
         return  redirect(h.url_for('dataset.search',  _external=True)) 
+    
+
+    def index():
+        return "0"

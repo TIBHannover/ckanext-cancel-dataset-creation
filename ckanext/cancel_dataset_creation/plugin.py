@@ -28,6 +28,13 @@ class CancelDatasetCreationPlugin(plugins.SingletonPlugin, DefaultTranslation):
             BaseController.cancel_dataset,
             methods=['POST']
             )
+        
+        blueprint.add_url_rule(
+            u'/cancel_dataset_creation/index',
+            u'index',
+            BaseController.index,
+            methods=['GET']
+            )
 
 
         return blueprint
