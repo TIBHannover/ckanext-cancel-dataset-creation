@@ -26,7 +26,7 @@ class CancelDatasetCreationPlugin(plugins.SingletonPlugin, DefaultTranslation):
             u'/cancel_dataset_creation/cancel_dataset/<package_id>/<is_draft>',
             u'cancel_dataset',
             BaseController.cancel_dataset,
-            methods=['GET']
+            methods=['GET', 'POST']
             )
         
         blueprint.add_url_rule(
