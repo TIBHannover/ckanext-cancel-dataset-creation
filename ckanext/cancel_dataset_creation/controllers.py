@@ -1,26 +1,34 @@
 # encoding: utf-8
 
 import ckan.plugins.toolkit as toolkit
-from flask import request, redirect
-import ckan.lib.helpers as h
 from ckanext.cancel_dataset_creation.lib import Helper
 
 class BaseController():
 
-    def cancel_dataset(package_id, is_draft):
-        try:
-            if not Helper.check_access_delete_package(package_id):
-                return toolkit.abort(403, "you are not authorized")
+    @staticmethod
+    def _context():
+        return {'user': getattr(toolkit.g, 'user', None)}
 
-            toolkit.get_action('package_delete')({},{'id': package_id})
-        except:
-            toolkit.abort(500, "We cannot process this request")
+    @staticmethod
+    def cancel_dataset(package_id, is_draft):
+        if not Helper.check_access_delete_package(package_id):
+            toolkit.abort(403, "You are not authorized to delete this dataset")
+
+        context = BaseController._context()
+        try:
+            toolkit.get_action('package_delete')(context, {'id': package_id})
+        except toolkit.ObjectNotFound:
+            toolkit.abort(404, "Dataset not found")
+        except toolkit.NotAuthorized:
+            toolkit.abort(403, "You are not authorized to delete this dataset")
+        except toolkit.ValidationError as error:
+            toolkit.abort(400, str(error))
 
         if is_draft == '1':
-            return  redirect(h.url_for('user.read', id=toolkit.g.userobj.name,  _external=True)) 
+            return toolkit.redirect_to('user.read', id=context['user'])
 
-        return  redirect(h.url_for('dataset.search',  _external=True)) 
-    
+        return toolkit.redirect_to('dataset.search')
 
+    @staticmethod
     def index():
         return "0"
