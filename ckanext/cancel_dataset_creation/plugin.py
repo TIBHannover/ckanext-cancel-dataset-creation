@@ -9,6 +9,7 @@ class CancelDatasetCreationPlugin(plugins.SingletonPlugin, DefaultTranslation):
     plugins.implements(plugins.IConfigurer)
     plugins.implements(plugins.IBlueprint)
     plugins.implements(plugins.ITranslation)
+    plugins.implements(plugins.IResourceController)
 
     # IConfigurer
 
@@ -38,3 +39,8 @@ class CancelDatasetCreationPlugin(plugins.SingletonPlugin, DefaultTranslation):
 
 
         return blueprint
+
+    # IResourceController
+    def before_create(self, context, data_dict):
+        data_dict['private'] = False
+        return data_dict

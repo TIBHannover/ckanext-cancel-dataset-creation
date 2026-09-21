@@ -11,7 +11,6 @@ cancel-dataset-creation-js:
       - vendor/vendor
       - vendor/bootstrap
       - vendor/jquery
-      - vendor/jquery.ui.core
       - vendor/select2
   contents:
     - script.js
