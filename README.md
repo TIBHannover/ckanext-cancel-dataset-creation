@@ -10,6 +10,8 @@ Compatibility with core CKAN versions:
 | CKAN version    | Compatible?   |
 | --------------- | ------------- |
 |  2.9 | Yes    |
+|  2.10 | Yes   |
+|  2.11 | Yes   |
 | earlier | Not Tested |           |
 
 
@@ -36,6 +38,5 @@ To install ckanext-cancel-dataset-creation :
 4. Restart CKAN. For example if you've deployed CKAN with Apache on Ubuntu:
 
         sudo service apache2 reload
-
 
 
