@@ -70,17 +70,21 @@ def test_cancel_route_rejects_get(app):
     assert response.status_code == 404
 
 
-@pytest.mark.usefixtures("with_request_context")
 def test_cancel_preserves_forbidden_response(monkeypatch):
     monkeypatch.setattr(
         Helper, "check_access_delete_package", lambda _package_id: False
     )
 
-    with pytest.raises(Forbidden):
+    def abort(status, message):
+        assert status == 403
+        raise Forbidden(description=message)
+
+    monkeypatch.setattr(toolkit, "abort", abort)
+
+    with pytest.raises(Forbidden, match="not authorized"):
         BaseController.cancel_dataset("example", "0")
 
 
-@pytest.mark.usefixtures("with_request_context")
 def test_cancel_reports_missing_dataset(monkeypatch):
     monkeypatch.setattr(
         Helper, "check_access_delete_package", lambda _package_id: True
@@ -90,8 +94,17 @@ def test_cancel_reports_missing_dataset(monkeypatch):
         raise toolkit.ObjectNotFound()
 
     monkeypatch.setattr(toolkit, "get_action", lambda _name: package_delete)
+    monkeypatch.setattr(
+        BaseController, "_context", lambda: {"user": "test-user"}
+    )
 
-    with pytest.raises(NotFound):
+    def abort(status, message):
+        assert status == 404
+        raise NotFound(description=message)
+
+    monkeypatch.setattr(toolkit, "abort", abort)
+
+    with pytest.raises(NotFound, match="Dataset not found"):
         BaseController.cancel_dataset("missing", "0")
 
 
