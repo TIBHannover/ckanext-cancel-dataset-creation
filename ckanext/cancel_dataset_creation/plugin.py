@@ -41,6 +41,46 @@ class CancelDatasetCreationPlugin(plugins.SingletonPlugin, DefaultTranslation):
         return blueprint
 
     # IResourceController
+    def before_resource_create(self, context, resource):
+        resource['private'] = False
+
+    def after_resource_create(self, context, resource):
+        pass
+
+    def before_resource_update(self, context, current, resource):
+        pass
+
+    def after_resource_update(self, context, resource):
+        pass
+
+    def before_resource_delete(self, context, resource, resources):
+        pass
+
+    def after_resource_delete(self, context, resources):
+        pass
+
+    def before_resource_show(self, resource_dict):
+        return resource_dict
+
+    # Legacy CKAN callback retained for compatibility with older releases.
     def before_create(self, context, data_dict):
-        data_dict['private'] = False
+        self.before_resource_create(context, data_dict)
         return data_dict
+
+    def after_create(self, context, resource):
+        return self.after_resource_create(context, resource)
+
+    def before_update(self, context, current, resource):
+        return self.before_resource_update(context, current, resource)
+
+    def after_update(self, context, resource):
+        return self.after_resource_update(context, resource)
+
+    def before_delete(self, context, resource, resources):
+        return self.before_resource_delete(context, resource, resources)
+
+    def after_delete(self, context, resources):
+        return self.after_resource_delete(context, resources)
+
+    def before_show(self, resource_dict):
+        return self.before_resource_show(resource_dict)

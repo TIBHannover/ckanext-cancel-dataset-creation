@@ -50,9 +50,32 @@ To temporary patch the CKAN configuration for the duration of a test you can use
 import pytest
 from werkzeug.exceptions import Forbidden, NotFound
 
+from ckan.tests import factories, helpers
 from ckan.plugins import toolkit
+from ckanext.cancel_dataset_creation.plugin import CancelDatasetCreationPlugin
 from ckanext.cancel_dataset_creation.controllers import BaseController
 from ckanext.cancel_dataset_creation.lib import Helper
+
+
+@pytest.mark.ckan_config("ckan.plugins", "cancel_dataset_creation")
+@pytest.mark.usefixtures("with_plugins", "clean_db")
+def test_package_show_handles_datasets_with_resources():
+    dataset = factories.Dataset(
+        resources=[{"url": "https://example.com/data.csv", "format": "CSV"}]
+    )
+
+    shown = helpers.call_action("package_show", id=dataset["id"])
+
+    assert shown["resources"][0]["id"] == dataset["resources"][0]["id"]
+
+
+def test_resource_create_callbacks_keep_resources_public():
+    plugin = CancelDatasetCreationPlugin()
+    resource = {"id": "resource-id"}
+
+    plugin.before_resource_create({}, resource)
+
+    assert resource["private"] is False
 
 @pytest.mark.ckan_config("ckan.plugins", "cancel_dataset_creation")
 @pytest.mark.ckan_config("SECRET_KEY", "test_secret")
